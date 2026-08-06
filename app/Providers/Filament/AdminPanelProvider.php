@@ -28,7 +28,6 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -42,7 +41,19 @@ class AdminPanelProvider extends PanelProvider
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
+            ->passwordReset()
+            ->login(\App\Filament\Pages\Auth\Login::class)
+            ->registration(\App\Filament\Pages\Auth\Register::class)
+            ->passwordReset(\App\Filament\Pages\Auth\RequestPasswordReset::class)
             ->plugins([
+                \Awcodes\LightSwitch\LightSwitchPlugin::make()
+                    ->enabledOn([
+                        'auth.email',
+                        'auth.login',
+                        'auth.password',
+                        'auth.profile',
+                        'auth.register',
+                    ]),
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
                     ->gridColumns([
                         'default' => 1,
